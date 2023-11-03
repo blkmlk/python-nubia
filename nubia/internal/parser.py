@@ -8,6 +8,7 @@
 #
 
 import pyparsing as pp
+import re
 
 from nubia.internal.exceptions import CommandParseError
 
@@ -23,7 +24,10 @@ def _bool_transform(x):
 
 
 def _str_transform(x):
-    return x.strip("\"'")
+    r = re.findall("^[\'\"]{1}(.*)[\"\']{1}", x)
+    if len(r) > 0:
+        return r[0]
+    return x
 
 
 _TRANSFORMS = {
